@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { geocodeByPlaceId } from 'react-google-places-autocomplete';
-import { Form } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 // import './styles.css';
 
 const AutoComplete = () => {
@@ -33,6 +33,10 @@ const AutoComplete = () => {
           {}
         );
 
+        console.log('results', results[0]?.address_components);
+
+        console.log('addressSanitised', addressSanitised);
+
         setAddress({
           streetNumber: addressSanitised.street_number,
           route: addressSanitised.route,
@@ -46,25 +50,45 @@ const AutoComplete = () => {
       .catch((error) => console.error(error));
   }, [value]);
 
+  const clearAddress = () => {
+    setValue(null);
+    setAddress({
+      streetNumber: '',
+      route: '',
+      postal_town: '',
+      post_town: '',
+      postal_code: '',
+      locality: '',
+      country: '',
+    });
+  };
+
   return (
     <Form>
-      <Form.Group className='mb-5'>
+      <Form.Group className='mb-3'>
         <Form.Label>Address Finder</Form.Label>
-        <GooglePlacesAutocomplete
-          onLoadFailed={(error) =>
-            console.error('Could not inject Google script', error)
-          }
-          apiKey={process.env.REACT_APP_API_KEY}
-          className='hello'
-          selectProps={{
-            value,
-            onChange: (e) => {
-              setValue(e);
-              console.log(e);
-            },
-            placeholder: 'Search address...',
-          }}
-        />
+        <Row>
+          <Col sm={10}>
+            <GooglePlacesAutocomplete
+              onLoadFailed={(error) =>
+                console.error('Could not inject Google script', error)
+              }
+              apiKey={process.env.REACT_APP_API_KEY}
+              className='hello'
+              selectProps={{
+                value,
+                onChange: (e) => {
+                  setValue(e);
+                  console.log(e);
+                },
+                placeholder: 'Search address...',
+              }}
+            />
+          </Col>
+          <Col sm={2}>
+            <Button onClick={clearAddress}>Clear</Button>
+          </Col>
+        </Row>
       </Form.Group>
 
       <Form.Group className='mb-2'>
