@@ -38,7 +38,9 @@ const AutoComplete = () => {
         console.log('addressSanitised', addressSanitised);
 
         setAddress({
-          streetNumber: addressSanitised.street_number,
+          streetNumber:
+            addressSanitised.street_number ||
+            `${addressSanitised.subpremise} ${addressSanitised.premise}`,
           route: addressSanitised.route,
           postal_town: addressSanitised.postal_town,
           post_town: addressSanitised.postal_code,
@@ -92,7 +94,7 @@ const AutoComplete = () => {
       </Form.Group>
 
       <Form.Group className='mb-2'>
-        <Form.Label>Street Number</Form.Label>
+        <Form.Label>Address Line 1</Form.Label>
         <Form.Control
           type='text'
           value={address.streetNumber}
@@ -102,7 +104,7 @@ const AutoComplete = () => {
         />
       </Form.Group>
       <Form.Group className='mb-2'>
-        <Form.Label>Address Line 1</Form.Label>
+        <Form.Label>Address Line 2</Form.Label>
         <Form.Control
           type='text'
           value={address.route}
@@ -110,7 +112,7 @@ const AutoComplete = () => {
         />
       </Form.Group>
       <Form.Group className='mb-2'>
-        <Form.Label>Address Line 2</Form.Label>
+        <Form.Label>Address Line 3</Form.Label>
         <Form.Control
           type='text'
           value={address.postal_town}
@@ -120,7 +122,7 @@ const AutoComplete = () => {
         />
       </Form.Group>
       <Form.Group className='mb-2'>
-        <Form.Label>Address Line 3</Form.Label>
+        <Form.Label>City</Form.Label>
         <Form.Control
           type='text'
           value={address.locality}
